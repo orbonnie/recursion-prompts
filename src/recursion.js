@@ -7,31 +7,91 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+  if (n < 0) {
+    return null;
+  }
+  if (n === 0) {
+    return 1;
+  }
+
+  return n * factorial(n - 1);
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+  if (array.length === 0) {
+    return 0;
+  }else {
+    return array[0] + sum(array.slice(1));
+  }
 };
 
-// 3. Sum all numbers in an array containing nested arrays.
+// 3. Sum  all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  if (array.length === 0) {
+    return 0;
+  }
+  if (Array.isArray(array[0]))  {
+    return arraySum(array[0]) + arraySum(array.slice(1));
+  } else {
+  return array[0] + arraySum(array.slice(1));
+  }
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  if (n < 0) {
+    n = -n;
+  }
+
+  if (n === 0) {
+    return true;
+  }
+  if (n === 1) {
+    return false;
+  }
+
+  return isEven(n - 2);
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+
+  if (n === 0) {
+    return 0;
+  }
+  if (n < 0) {
+    return n+1 + sumBelow(n + 1);
+  }
+
+  return n-1 + sumBelow(n - 1);
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  if (x === y) {
+    return [];
+  }
+  if (x === y + 1 || x === y - 1) {
+    return [];
+  }
+
+  var rangeList = [];
+  if (x > y) {
+    rangeList.push(x - 1);
+    rangeList = rangeList.concat(range(x - 1, y));
+  }
+
+  else if (x < y) {
+    rangeList.push(x + 1);
+    rangeList = rangeList.concat(range(x + 1, y));
+  }
+  return rangeList;
 };
 
 // 7. Compute the exponent of a number.
@@ -40,6 +100,18 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if (exp === 0) {
+    return 1;
+  }
+  if (exp === 1) {
+    return base;
+  }
+
+  if (exp < 0) {
+    return ( 1 / (exponent(base, -exp)));
+  }
+
+  return base * exponent(base, exp - 1);
 };
 
 // 8. Determine if a number is a power of two.
@@ -47,14 +119,87 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  // var result = false;
+  // if(n < 0) {
+  //   return;
+  // }
+
+  // if (n === squared) {
+  //   return;
+
+  // var squared;
+  //   for (var i = num; i > 0; i++) {
+  //     squared = i * i;
+  //     return squared === powerOfTwo(n);
+  //   }
+  // }
+
+  // return result;
+    // var divisor = n - 1;
+  // if(result === divisor) {
+  //   return true;
+  // }
+
+  // var result = powerOfTwo(n / (divisor - 1));
+  // if (n === 0) {
+  //   return true;
+  // }
+  // var numStr = n.toString();
+  // if(numStr[numStr.length - 1] === '2' || numStr[numStr.length - 1] === '3'
+  //   || numStr[numStr.length - 1] === '7' || numStr[numStr.length - 1] === '8'
+  //   || numStr.slice(-2)!== '00') {
+  //     return false;
+  //   }
+  // // if ((parseInt(numStr[numStr.length - 2]) % 2 === 0 && numStr[numStr.length - 1] === '6') ||
+  // // (parseInt(numStr[numStr.length - 2]) % 2 !== 0 && numStr[numStr.length - 1] !== '6') ||
+  // // (numStr[numStr.length - 2]!== '2' && numStr[numStr.length - 1] === '5') ||
+  // // (parseInt(numStr.slice(-2)) % 2 === 0 && parseInt(numStr.slice(-2)  % 4 !== 0))) {
+  // //   return false;
+  // // }
+  // console.log('start ', n);
+  // if (n < 0){
+  //   console.log('false ', n);
+  //   return false;
+  // }
+
+  // if (n === 1 || n === 2|| n === 4 || n === 0) {
+  //   console.log('true ', n)
+  //   return true;
+  // }
+
+  // return powerOfTwo(n- 7);
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  var reversedStr;
+  if (string === '') {
+    return string;
+  }
+  var last = string.slice(-1);
+  string = string.slice(0, -1);
+  reversedStr = last + (reverse(string));
+  return reversedStr;
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  string = string.toLowerCase().split(' ').join('');
+  var start = string[0];
+  var end = string[string.length - 1];
+
+  if (string.length <= 1) {
+    return true;
+  }
+  if( string.length === 2 && start === end) {
+    return true;
+  }
+  if (start !== end) {
+    return false;
+  }
+
+  string = string.slice(1, -1);
+  return palindrome(string);
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -63,16 +208,134 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+
+  if (y === 0) {
+    return undefined;
+  }
+
+  if (x === 0) {
+    return 0;
+  }
+
+  if (x === y) {
+    return 0;
+  }
+
+  if (x < 0 && y < 0) {
+    if (-x >= -y) {
+     x = x - y;
+     return modulo(x, y);
+    } else if (-x < -y){
+      return x;
+    }
+  }
+
+  if (x < 0 && y > 0){
+    if (-x >= y) {
+      x = x + y;
+      return modulo(x, y);
+    } else if (-x < -y){
+      return x;
+    }
+  }
+
+  if (x > 0 && y < 0){
+    if(x >= -y) {
+      x = x + y;
+      return modulo(x, y);
+    } else if (-x < -y){
+     return x;
+    }
+  }
+
+  if (x < y) {
+    return x;
+    }
+
+    x = x - y;
+  return modulo(x, y);
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  var isNeg = false;
+  var result;
+  if (x > 0 && y < 0){
+    y = -y;
+    isNeg = true;
+  }
+
+  if (x < 0 && y > 0){
+    x = -x;
+    isNeg = true;
+  }
+
+  if (x < 0 && y < 0) {
+    x = -x;
+    y = -y;
+  }
+
+  if (x === 0 || y === 0) {
+    return 0;
+  }
+
+  if (x === 1) {
+    return y;
+  }
+  if (y === 1) {
+    return x;
+  }
+
+    result = x + multiply(x, y - 1);
+
+  if (isNeg) {
+    result = - result;
+  }
+  return result;
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  if (y === 0) {
+    return undefined;
+  }
+
+  var isNeg = false;
+  if (x > 0 && y < 0){
+    y = -y;
+    isNeg = true;
+  }
+
+  if (x < 0 && y > 0){
+    x = -x;
+    isNeg = true;
+  }
+
+  if (x < 0 && y < 0) {
+    x = -x;
+    y = -y;
+  }
+
+  if (x === 0) {
+    return 0;
+  }
+
+  if (y === 1) {
+    return x;
+  }
+
+  if (x < y) {
+    return 0;
+  }
+
+  result = 1 + divide(x - y, y);
+
+  if (isNeg) {
+    result = - result;
+  }
+  return result;
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
@@ -129,6 +392,24 @@ var rMap = function(array, callback) {
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
 var countKeysInObj = function(obj, key) {
+    var isObject = function(obj) {
+    return obj && typeof obj === 'object' && obj.constructor === Object;
+  }
+  var count = 0;
+  // set a case for the current input, what do you want done?
+// case 1
+  for (var prop in obj) {
+    if (prop === key) {
+      count++;
+    }
+    // set a case to detect nestedness
+    var value = obj[prop];
+    if (isObject(value)) {
+      // recursively call on all values;
+      count += countKeysInObj(value, key);
+    }
+  }
+  return count;
 };
 
 // 23. Write a function that counts the number of times a value occurs in an object.
@@ -136,11 +417,41 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+  var isObject = function(obj) {
+    return obj && typeof obj === 'object' && obj.constructor === Object;
+  }
+  var count = 0;
+
+    if (obj === value) {
+      return 1;
+    }
+    if (isObject(obj)) {
+      for (var key in obj) {
+        count += countValuesInObj(obj[key], value);
+        }
+    }
+  return count;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+  var isObject = function(obj) {
+    return obj && typeof obj === 'object' && obj.constructor === Object;
+  }
+
+  for (var key in obj) {
+    if (key === oldKey) {
+      obj[newKey] = obj[oldKey];
+      delete obj[oldKey];
+    }
+
+    var value = obj[key];
+    if (isObject(value)) {
+      replaceKeysInObj(value, oldKey, newKey);
+    }
+  }
+  return obj;
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
@@ -185,6 +496,17 @@ var nestedEvenSum = function(obj) {
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+  var flatArray = [];
+
+  if(!Array.isArray(array)) {
+    return array;
+  }
+
+  array.forEach(function(value){
+    flatArray = flatArray.concat(flatten(value));
+  });
+
+  return flatArray;
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
@@ -237,6 +559,37 @@ var tagCount = function(tag, node) {
 // binarySearch(array, 5) // 5
 // https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
 var binarySearch = function(array, target, min, max) {
+  // min = (min || 0);
+  // max = (max || array.length -1);
+
+  // if(min > max){
+  //   return null;
+  // }
+
+  // let mid = Math.floor((min + max) / 2);
+
+
+  // if(target === array[mid]){
+  //   return mid;
+  // }
+
+  // console.log(array);
+  // console.log('target ', target);
+  // console.log('min ', min);
+  // console.log('min val ', array[min]);
+  // console.log('mid ', mid);
+  // console.log('mid val ', array[mid]);
+  // console.log('max ', max);
+  // console.log('max val ', array[max]);
+
+  // if (target > array[mid]){
+  //   min = mid + 1;
+  //   return binarySearch(array, target, min, max);
+  // }
+  // if (target < array[mid]) {
+  //   max = mid - 1;
+  //   return binarySearch(array, target, min, max);
+  // }
 };
 
 // 39. Write a merge sort function.
